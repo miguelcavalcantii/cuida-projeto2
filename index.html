@@ -29,7 +29,8 @@
   #deck th, #deck td { border-bottom:1px solid #E2E2E4; vertical-align:middle; }
   #deck tr:last-child td { border-bottom:none; }
   #deck th { font-weight:600; }
-  #deck a { color:inherit; text-decoration:none; }
+  #deck section > div[style*="position:absolute"], #deck section > div[style*="position: absolute"] { pointer-events:none; }
+  #deck a { color:inherit; text-decoration:none; position:relative; z-index:10; pointer-events:auto; cursor:pointer; }
   #deck a:hover { text-decoration:underline; }
   /* build-in */
   #deck [data-build-in] { transition: transform .7s cubic-bezier(.2,.8,.2,1) .25s, opacity .7s ease .25s; }
@@ -603,6 +604,10 @@
   document.getElementById('prev').onclick = function(e){ e.stopPropagation(); prev(); };
   document.getElementById('fs').onclick = function(e){ e.stopPropagation(); toggleFs(); };
 
+  window.addEventListener('hashchange', function(){
+    var k = parseInt((location.hash || '').slice(1), 10);
+    if (k >= 1 && k <= n && k - 1 !== cur) show(k - 1, k - 1 > cur ? 1 : -1);
+  });
   var start = parseInt((location.hash || '').slice(1), 10);
   show(start >= 1 && start <= n ? start - 1 : 0, 1);
 })();
